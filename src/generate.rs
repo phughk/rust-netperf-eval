@@ -1,7 +1,37 @@
-use rand::Rng;
+use crate::sturct::HypotheticalMessage;
+use crate::sturct::SomeType;
 
-pub fn generate() {
+use rand::{distributions::Alphanumeric, Rng};
+
+static STRING_SIZE: usize = 50;
+static SMALL_SIZE: u8 = 255;
+static LARGE_SIZE: u32 = 4294967295;
+
+pub fn generate() -> HypotheticalMessage {
     let mut rng = rand::thread_rng();
-    let v = rng.gen_range(0..65535);
-    println!("The generated value was {v}\n")
+    HypotheticalMessage {
+        variable_string: rand::thread_rng()
+            .sample_iter(&Alphanumeric)
+            .take(STRING_SIZE)
+            .map(char::from)
+            .collect(),
+        an_enum: SomeType::TypeOne,
+        small_int: rng.gen_range(0..SMALL_SIZE),
+        large_int: rng.gen_range(0..LARGE_SIZE),
+        nested: Option::Some(Box::new(HypotheticalMessage {
+            variable_string: rand::thread_rng()
+                .sample_iter(&Alphanumeric)
+                .take(STRING_SIZE)
+                .map(char::from)
+                .collect(),
+            an_enum: SomeType::TypeOne,
+            small_int: rng.gen_range(0..SMALL_SIZE),
+            large_int: rng.gen_range(0..LARGE_SIZE),
+            nested: Option::None,
+            array: vec![],
+            map: Default::default(),
+        })),
+        array: vec![],
+        map: Default::default(),
+    }
 }

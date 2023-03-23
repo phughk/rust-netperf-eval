@@ -4,6 +4,6 @@ mod generate;
 use generate::generate;
 
 fn main() {
-    println!("Hello, world!");
-    generate();
+    let generated = generate();
+    println!("Generated message {generated:?}");
 }
